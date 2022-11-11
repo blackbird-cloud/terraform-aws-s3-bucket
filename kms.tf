@@ -37,9 +37,17 @@ data "aws_iam_policy_document" "kms" {
 }
 
 resource "aws_kms_key" "kms" {
-  count                   = var.encrypt_with_aws_managed_keys ? 0 : 1
+  count = var.encrypt_with_aws_managed_keys ? 0 : 1
+
   description             = "KMS Key for ${var.purpose}"
   deletion_window_in_days = 10
   policy                  = data.aws_iam_policy_document.kms.json
   enable_key_rotation     = true
+}
+
+resource "aws_kms_alias" "alias" {
+  count = var.encrypt_with_aws_managed_keys ? 0 : 1
+
+  name_prefix   = var.bucket_prefix
+  target_key_id = aws_kms_key.kms[0].key_id
 }

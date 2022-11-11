@@ -1,6 +1,6 @@
 variable "purpose" {
   type        = string
-  description = "Purpose for the bucket"
+  description = "Purpose for the bucket and KMS key, used in the description fields."
 }
 
 variable "service_principals" {
@@ -53,7 +53,7 @@ variable "logging" {
 
 variable "bucket_prefix" {
   type        = string
-  description = "Instead of a bucket name we use a bucket-prefix"
+  description = "Instead of a bucket name we use a bucket-prefix, also used for KMS key alias prefix."
 }
 
 variable "attach_elb_log_delivery_policy" {
