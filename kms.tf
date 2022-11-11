@@ -48,6 +48,6 @@ resource "aws_kms_key" "kms" {
 resource "aws_kms_alias" "alias" {
   count = var.encrypt_with_aws_managed_keys ? 0 : 1
 
-  name_prefix   = var.bucket_prefix
+  name_prefix   = "alias/${var.bucket_prefix}"
   target_key_id = aws_kms_key.kms[0].key_id
 }
