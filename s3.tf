@@ -27,6 +27,7 @@ module "bucket" {
     enabled = var.versioning
   }
 
-  lifecycle_rule = var.lifecycle_rule
-  logging = var.logging
+  lifecycle_rule            = var.lifecycle_rule
+  logging                   = var.logging
+  replication_configuration = var.replication_configuration
 }

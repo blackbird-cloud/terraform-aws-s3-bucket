@@ -96,3 +96,9 @@ variable "lifecycle_rule" {
   }]
   description = "List of maps containing configuration of object lifecycle management."
 }
+
+variable "replication_configuration" {
+  description = "Map containing cross-region replication configuration."
+  type        = any
+  default     = {}
+}
