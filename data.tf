@@ -1,25 +1,5 @@
 locals {
   account_id = data.aws_caller_identity.current.account_id
-  # iam_principals_bucket_actions = compact(flatten([
-  #   for principal in var.iam_principals : [
-  #     for action in var.bucket_actions : principal
-  #   ]
-  # ]))
-  # service_principals_bucket_actions = compact(flatten([
-  #   for principal in var.service_principals : [
-  #     for action in var.bucket_actions : principal
-  #   ]
-  # ]))
-  # iam_principals_object_actions = compact(flatten([
-  #   for principal in var.iam_principals : [
-  #     for action in var.object_actions : principal
-  #   ]
-  # ]))
-  # service_principals_object_actions = compact(flatten([
-  #   for principal in var.service_principals : [
-  #     for action in var.object_actions : principal
-  #   ]
-  # ]))
 }
 
 data "aws_caller_identity" "current" {}
@@ -39,7 +19,7 @@ data "aws_iam_policy_document" "elb_log_delivery" {
 
     principals {
       type        = "AWS"
-      identifiers = data.aws_elb_service_account.this.*.arn
+      identifiers = data.aws_elb_service_account.this[*].arn
     }
   }
 }

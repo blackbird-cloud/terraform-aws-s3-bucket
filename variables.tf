@@ -23,7 +23,7 @@ variable "object_actions" {
 
 variable "bucket_actions" {
   type        = list(string)
-  default     = []
+  default     = ["s3:ListBucket"]
   description = "List of bucket actions that the principals are allowed to execute."
 }
 
@@ -101,4 +101,18 @@ variable "replication_configuration" {
   description = "Map containing cross-region replication configuration."
   type        = any
   default     = {}
+}
+
+variable "kms_key_policy_statements" {
+  type = list(object({
+    sid : string
+    effect : string
+    actions : list(string)
+    principals : list(object({
+      type : string
+      identifiers : list(string)
+    }))
+  }))
+  default     = []
+  description = "(Optional) Additional KMS key policy statements to add."
 }

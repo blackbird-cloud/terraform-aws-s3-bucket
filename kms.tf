@@ -8,6 +8,24 @@ data "aws_iam_policy_document" "kms" {
       identifiers = ["arn:aws:iam::${local.account_id}:root"]
     }
   }
+
+  dynamic "statement" {
+    for_each = { for statement in var.kms_key_policy_statements : statement.sid => statement }
+    content {
+      sid       = statement.value.sid
+      effect    = try(statement.value.effect, "Allow")
+      actions   = try(statement.value.actions, [])
+      resources = ["*"]
+      dynamic "principals" {
+        for_each = { for principal in try(statement.value.principals, []) : jsonencode(principal) => principal }
+        content {
+          type        = principals.value.type
+          identifiers = principals.value.identifiers
+        }
+      }
+    }
+  }
+
   dynamic "statement" {
     for_each = { for principal in var.service_principals : principal => principal }
     content {
